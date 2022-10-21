@@ -13,7 +13,6 @@
     'use strict';
 
     let count = 0;
-    let cleanedText = '';
     let rowTagName = 'ytmusic-responsive-list-item-renderer';
     let rows = document.getElementsByTagName(rowTagName);
 
@@ -22,11 +21,6 @@
 
 
     const delay = ms => new Promise(res => setTimeout(res, ms));
-
-    function cleanString(str) {
-        str = str.replace(startSeparator, ";");
-        str = str.replace
-    }
 
 
     async function getMusic() {
@@ -55,9 +49,10 @@
 
     const scrollDown = async () => {
         await delay(10000);
-        console.log("Waited 5s");
-        window.scrollTo(0, document.body.scrollHeight);
+        console.log("Waited 10s");
         console.log('Scrolling down...')
+        window.scrollTo(0, document.body.scrollHeight);
+
 
     };
 
@@ -69,9 +64,9 @@
 
         rows = document.getElementsByTagName(rowTagName);
         for (let i = 0; i < rows.length; i++) {
-            //cleanedText = rows[i].innerText.replaceAll("\n", "; ");
 
             let songName = rows[i].getElementsByTagName('a')[0].innerHTML;
+
             let artistName = ''
             if(rows[i].getElementsByTagName('a').length>1) {
                 artistName = rows[i].getElementsByTagName('a')[1].innerHTML;
@@ -88,6 +83,9 @@
                 albumName = rows[i].getElementsByTagName('a')[2].innerHTML;
             }
 
+            songName = songName.replaceAll('&amp;', '&');
+            artistName = artistName.replaceAll('&amp;', '&');
+            albumName = artistName.replaceAll('&amp;', '&');
             console.log(`${songName};${artistName};${albumName};${songDuration};${url};${youtubeURL}`);
 
         }
