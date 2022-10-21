@@ -12,9 +12,8 @@
 (function () {
     'use strict';
 
-    let count = 0
+    let count = 0;
     let cleanedText = '';
-    let url = ''
     let rowTagName = 'ytmusic-responsive-list-item-renderer';
     let rows = document.getElementsByTagName(rowTagName);
 
@@ -55,7 +54,7 @@
 
 
     const scrollDown = async () => {
-        await delay(5000);
+        await delay(10000);
         console.log("Waited 5s");
         window.scrollTo(0, document.body.scrollHeight);
         console.log('Scrolling down...')
@@ -70,10 +69,26 @@
 
         rows = document.getElementsByTagName(rowTagName);
         for (let i = 0; i < rows.length; i++) {
-            cleanedText = rows[i].innerText.replaceAll("\n", "; ");
-            url = rows[i].getElementsByTagName('a')[0].href;
-            cleanedText = `${cleanedText}; ${url}; ${url.replace('https://music.', 'https://www.')}`;
-            console.log(cleanedText);
+            //cleanedText = rows[i].innerText.replaceAll("\n", "; ");
+
+            let songName = rows[i].getElementsByTagName('a')[0].innerHTML;
+            let artistName = ''
+            if(rows[i].getElementsByTagName('a').length>1) {
+                artistName = rows[i].getElementsByTagName('a')[1].innerHTML;
+            } else {
+                artistName = rows[i].getElementsByTagName('yt-formatted-string')[1].innerText
+            }
+
+            let songDuration = rows[i].lastChild.previousSibling.innerText;
+            let url = rows[i].getElementsByTagName('a')[0].href;
+            let youtubeURL = url.replace('https://music.', 'https://www.');
+
+            let albumName = ''
+            if (rows[i].getElementsByTagName('a').length > 2) {
+                albumName = rows[i].getElementsByTagName('a')[2].innerHTML;
+            }
+
+            console.log(`${songName};${artistName};${albumName};${songDuration};${url};${youtubeURL}`);
 
         }
 
