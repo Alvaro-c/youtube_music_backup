@@ -31,8 +31,7 @@
 
 
     async function getMusic() {
-        // while (newRowNumber > lastRowNumber) {
-        while (count < 1) {
+        while (newRowNumber > lastRowNumber) {
 
             console.log(`Previous number of rows: ${lastRowNumber}`);
             console.log(`Current number of rows: ${newRowNumber}`);
@@ -40,10 +39,10 @@
 
             lastRowNumber = document.getElementsByTagName(rowTagName).length;
 
-            // await scrollDown()
-            // if (count < 2) {
-            //     await scrollDown()
-            // }
+            await scrollDown()
+            if (count < 2) {
+                await scrollDown()
+            }
 
             newRowNumber = document.getElementsByTagName(rowTagName).length;
 
@@ -68,16 +67,12 @@
 
 
         console.log(`Found ${rows.length} songs`)
-        console.log("flag");
 
         rows = document.getElementsByTagName(rowTagName);
-
         for (let i = 0; i < rows.length; i++) {
             cleanedText = rows[i].innerText.replaceAll("\n", "; ");
-            url = rows[i].innerText.getElementsByTagName('a')[0].href;
-            console.log("flag");
-            console.log(url);
-            cleanedText = `${cleanedText}; ${url}`;
+            url = rows[i].getElementsByTagName('a')[0].href;
+            cleanedText = `${cleanedText}; ${url}; ${url.replace('https://music.', 'https://www.')}`;
             console.log(cleanedText);
 
         }
