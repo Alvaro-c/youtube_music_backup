@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Youtube Music Extractor
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.2
 // @description  Download the list of songs from a YouTube Music List into a .txt
 // @author       Alvaro-c
 // @match        https://music.youtube.com/playlist*
