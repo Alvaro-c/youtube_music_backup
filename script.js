@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        https://music.youtube.com/playlist?list=LM
+// @match        https://music.youtube.com/playlist*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
 // @grant        none
 // ==/UserScript==
@@ -19,33 +19,21 @@
     let lastRowNumber = 0
     let newRowNumber = rows.length
 
+    document.addEventListener('DOMContentLoaded', showActionButton());
 
-    const delay = ms => new Promise(res => setTimeout(res, ms));
+    function showActionButton() {
+        let button = document.createElement('button');
+        button.setAttribute("id", "start-scrap-button");
+        button.setAttribute("style", "width: 80px;height: 25px;position: absolute;left: 93%;top:20px;z-index:50")
+        button.innerText = "Start"
+        button.addEventListener('click', loadFullList)
+        document.body.appendChild(button);
+    
 
-
-    async function getMusic() {
-        while (newRowNumber > lastRowNumber) {
-
-            console.log(`Previous number of rows: ${lastRowNumber}`);
-            console.log(`Current number of rows: ${newRowNumber}`);
-            console.log(`Continue?: ${newRowNumber > lastRowNumber}`);
-
-            lastRowNumber = document.getElementsByTagName(rowTagName).length;
-
-            await scrollDown()
-            if (count < 2) {
-                await scrollDown()
-            }
-
-            newRowNumber = document.getElementsByTagName(rowTagName).length;
-
-            count++;
-            console.log(`Times scrolled down: ${count}`);
-        }
-
-        getListOfSongs()
     }
 
+
+    const delay = ms => new Promise(res => setTimeout(res, ms));
 
     const scrollDown = async () => {
         await delay(10000);
@@ -56,10 +44,9 @@
 
     };
 
-
     function getListOfSongs() {
 
-
+        let string = '';
         console.log(`Found ${rows.length} songs`)
 
         rows = document.getElementsByTagName(rowTagName);
@@ -86,21 +73,55 @@
             songName = songName.replaceAll('&amp;', '&');
             artistName = artistName.replaceAll('&amp;', '&');
             albumName = artistName.replaceAll('&amp;', '&');
-            console.log(`${songName};${artistName};${albumName};${songDuration};${url};${youtubeURL}`);
+            let newsong = `${songName};${artistName};${albumName};${songDuration};${url};${youtubeURL}`
+            console.log(newsong);
+            string = string + newsong + "\n";
+
 
         }
 
+        saveList(string, "list.txt");
+
+    }
+
+    async function loadFullList() {
+
+        while (newRowNumber > lastRowNumber) {
+
+            console.log(`Previous number of rows: ${lastRowNumber}`);
+            console.log(`Current number of rows: ${newRowNumber}`);
+            console.log(`Continue?: ${newRowNumber > lastRowNumber}`);
+
+            lastRowNumber = document.getElementsByTagName(rowTagName).length;
+
+            await scrollDown()
+            if (count < 2) {
+                await scrollDown()
+            }
+
+            newRowNumber = document.getElementsByTagName(rowTagName).length;
+
+            count++;
+            console.log(`Times scrolled down: ${count}`);
+        }
+
+        getListOfSongs()
     }
 
 
-    getMusic()
-
-
-
-
-
-
-
+    const saveList = (function () {
+        let a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        return function (data, fileName) {
+            var blob = new Blob([data], {type: "octet/stream"});
+            var url = window.URL.createObjectURL(blob);
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        };
+    }());
 
 
 
