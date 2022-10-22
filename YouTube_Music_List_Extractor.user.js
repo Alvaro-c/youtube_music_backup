@@ -6,8 +6,8 @@
 // @author       Alvaro-c
 // @match        https://music.youtube.com/playlist*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=youtube.com
-// @updateURL    https://gist.github.com/Alvaro-c/youtube_music_backup/blob/main/YouTube_Music_List_Extractor.user.js
-// @downloadURL  https://gist.github.com/Alvaro-c/youtube_music_backup/blob/main/YouTube_Music_List_Extractor.user.js
+// @updateURL    https://github.com/Alvaro-c/youtube_music_backup/raw/main/YouTube_Music_List_Extractor.user.js
+// @downloadURL  https://github.com/Alvaro-c/youtube_music_backup/raw/main/YouTube_Music_List_Extractor.user.js
 // @grant        none
 // ==/UserScript==
 
