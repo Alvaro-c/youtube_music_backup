@@ -30,8 +30,14 @@
         button.innerText = "Start"
         button.addEventListener('click', loadFullList)
         document.body.appendChild(button);
-    
 
+
+    }
+
+    function cleanText(text) {
+        let input = document.createElement("textarea");
+        input.innerHTML = text;
+        return input.value;
     }
 
 
@@ -57,7 +63,7 @@
             let songName = rows[i].getElementsByTagName('a')[0].innerHTML;
 
             let artistName = ''
-            if(rows[i].getElementsByTagName('a').length>1) {
+            if (rows[i].getElementsByTagName('a').length > 1) {
                 artistName = rows[i].getElementsByTagName('a')[1].innerHTML;
             } else {
                 artistName = rows[i].getElementsByTagName('yt-formatted-string')[1].innerText
@@ -65,6 +71,7 @@
 
             let songDuration = rows[i].lastChild.previousSibling.innerText;
             let url = rows[i].getElementsByTagName('a')[0].href;
+            url = url.split("&")[0]
             let youtubeURL = url.replace('https://music.', 'https://www.');
 
             let albumName = ''
@@ -72,9 +79,10 @@
                 albumName = rows[i].getElementsByTagName('a')[2].innerHTML;
             }
 
-            songName = songName.replaceAll('&amp;', '&');
-            artistName = artistName.replaceAll('&amp;', '&');
-            albumName = artistName.replaceAll('&amp;', '&');
+            songName = cleanText(songName);
+            artistName = cleanText(artistName);
+            albumName = cleanText(albumName);
+
             let newsong = `${songName};${artistName};${albumName};${songDuration};${url};${youtubeURL}`
             console.log(newsong);
             string = string + newsong + "\n";
@@ -116,7 +124,7 @@
         document.body.appendChild(a);
         a.style = "display: none";
         return function (data, fileName) {
-            let blob = new Blob([data], {type: "octet/stream"});
+            let blob = new Blob([data], { type: "octet/stream" });
             let url = window.URL.createObjectURL(blob);
             a.href = url;
             a.download = fileName;
