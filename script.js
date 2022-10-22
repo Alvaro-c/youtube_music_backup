@@ -114,8 +114,8 @@
         document.body.appendChild(a);
         a.style = "display: none";
         return function (data, fileName) {
-            var blob = new Blob([data], {type: "octet/stream"});
-            var url = window.URL.createObjectURL(blob);
+            let blob = new Blob([data], {type: "octet/stream"});
+            let url = window.URL.createObjectURL(blob);
             a.href = url;
             a.download = fileName;
             a.click();
